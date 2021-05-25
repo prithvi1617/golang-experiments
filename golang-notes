@@ -1,0 +1,308 @@
+
+Popular products built using Go
+The following are some of the popular products built using Go.
+
+Google developed Kubernetes using Go.
+Docker, the world famous containerization platform is developed using Go.
+Dropbox has migrated its performance critical components from Python to Go.
+Infoblox's next generation networking products are developed using Go.
+
+What is a function?
+A function is a block of code that performs a specific task. A function takes an input, performs some calculations on the input, and generates an output.
+
+Arrays
+An array is a collection of elements that belong to the same type. For example, the collection of integers 5, 8, 9, 79, 76 forms an array. Mixing values of different types, for example, an array that contains both strings and integers is not allowed in Go.
+
+Slices
+A slice is a convenient, flexible and powerful wrapper on top of an array. Slices do not own any data on their own. They are just references to existing arrays.
+
+modifying a slice
+A slice does not own any data of its own. It is just a representation of the underlying array. Any modifications done to the slice will be reflected in the underlying array.
+
+length and capacity of a slice
+The length of the slice is the number of elements in the slice. The capacity of the slice is the number of elements in the underlying array starting from the index from which the slice is created.
+
+Multidimensional slices
+Similar to arrays, slices can have multiple dimensions.
+
+What is a variadic function?
+Functions in general accept only a fixed number of arguments. A variadic function is a function that accepts a variable number of arguments. If the last parameter of a function definition is prefixed by ellipsis ..., then the function can accept any number of arguments for that parameter.
+
+Only the last parameter of a function can be variadic. 
+
+Syntax
+func hello(a int, b ...int) {  
+}
+
+There is a syntactic sugar which can be used to pass a slice to a variadic function. You have to suffix the slice with ellipsis ... If that is done, the slice is directly passed to the function without a new slice being created.
+
+What is a map?
+A map is a builtin type in Go that is used to store key-value pairs.
+
+Zero value of a map
+The zero value of a map is nil.
+
+What is a String?
+A string is a slice of bytes in Go. Strings can be created by enclosing a set of characters inside double quotes " ".
+
+Strings in Go are Unicode compliant and are UTF-8 Encoded.
+
+Rune
+A rune is a builtin type in Go and it's the alias of int32. Rune represents a Unicode code point in Go. It doesn't matter how many bytes the code point occupies, it can be represented by a rune. Let's modify the above program to print characters using a rune.
+
+What is a pointer?
+A pointer is a variable which stores the memory address of another variable.
+
+Pointers in Go
+
+Dereferencing a pointer
+Dereferencing a pointer means accessing the value of the variable which the pointer points to. *a is the syntax to deference a.
+
+Do not pass a pointer to an array as a argument to a function. Use slice instead.
+
+Although this way of passing a pointer to an array as a argument to a function and making modification to it works, it is not the idiomatic way of achieving this in Go. We have slices for this.
+
+Go does not support pointer arithmetic which is present in other languages like C and C++.
+
+package main
+
+func main() {  
+    b := [...]int{109, 110, 111}
+    p := &b
+    p++
+}
+
+What is a struct?
+A struct is a user-defined type that represents a collection of fields. It can be used in places where it makes sense to group the data into a single unit rather than having each of them as separate values.
+
+Zero value of a struct
+When a struct is defined and it is not explicitly initialized with any value, the fields of the struct are assigned their zero values by default.
+
+Pointers to a struct
+It is also possible to create pointers to a struct.
+
+The Go language gives us the option to use emp8.firstName instead of the explicit dereference (*emp8).firstName to access the firstName field.
+
+Exported structs and fields
+If a struct type starts with a capital letter, then it is an exported type and it can be accessed from other packages. Similarly, if the fields of a struct start with caps, they can be accessed from other packages.
+
+Promoted fields
+Fields that belong to an anonymous struct field in a struct are called promoted fields since they can be accessed as if they belong to the struct which holds the anonymous struct field
+
+Structs Equality
+Structs are value types and are comparable if each of their fields are comparable. Two struct variables are considered equal if their corresponding fields are equal.
+
+A method is just a function with a special receiver type between the func keyword and the method name. The receiver can either be a struct type or non-struct type.
+
+why do we have methods when we can write the same program using functions. There are a couple of reasons for this. Let's look at them one by one.
+
+Go is not a pure object-oriented programming language and it does not support classes. Hence methods on types are a way to achieve behavior similar to classes. Methods allow a logical grouping of behavior related to a type similar to classes. In the above sample program, all behaviors related to the Employee type can be grouped by creating methods using Employee receiver type. For example, we can add methods like calculatePension, calculateLeaves and so on.
+
+Methods with the same name can be defined on different types whereas functions with the same names are not allowed. Let's assume that we have a Square and Circle structure. It's possible to define a method named Area on both Square and Circle. This is done in the program below.
+
+
+
+What is an interface?
+In Go, an interface is a set of method signatures. When a type provides definition for all the methods in the interface, it is said to implement the interface..
+
+An interface can be thought of as being represented internally by a tuple (type, value)
+
+An interface that has zero methods is called an empty interface. It is represented as interface{}. Since the empty interface has zero methods, all types implement the empty interface.
+
+Type assertion
+Type assertion is used to extract the underlying value of the interface.
+
+i.(T) is the syntax which is used to get the underlying value of interface i whose concrete type is T.
+
+v, ok := i.(T)  
+
+
+The reason is that it is legal to call a pointer-valued method on anything that is already a pointer or whose address can be taken. The concrete value stored in an interface is not addressable and hence it is not possible for the compiler to automatically take the address of a in line no. 45 and hence this code fails.
+
+Go is a concurrent language and not a parallel one. 
+
+What is concurrency?
+Concurrency is the capability to deal with lots of things at once. 
+
+What is parallelism and how is it different from concurrency?
+Parallelism is doing lots of things at the same time. It might sound similar to concurrency but it's actually different.
+
+Parallelism will not always result in faster execution times. This is because the components running in parallel have might have to communicate with each other.
+
+Support for concurrency in Go
+Concurrency is an inherent part of the Go programming language. Concurrency is handled in Go using Goroutines and channels.
+
+What are Goroutines?
+Goroutines are functions or methods that run concurrently with other functions or methods. Goroutines can be thought of as light weight threads. The cost of creating a Goroutine is tiny when compared to a thread. Hence it's common for Go applications to have thousands of Goroutines running concurrently..
+
+Advantages of Goroutines over threads
+Goroutines are extremely cheap when compared to threads. They are only a few kb in stack size and the stack can grow and shrink according to needs of the application whereas in the case of threads the stack size has to be specified and is fixed.
+The Goroutines are multiplexed to fewer number of OS threads. There might be only one thread in a program with thousands of Goroutines. If any Goroutine in that thread blocks say waiting for user input, then another OS thread is created and the remaining Goroutines are moved to the new OS thread. All these are taken care by the runtime and we as programmers are abstracted from these intricate details and are given a clean API to work with concurrency.
+Goroutines communicate using channels. Channels by design prevent race conditions from happening when accessing shared memory using Goroutines. Channels can be thought of as a pipe using which Goroutines communicate. We will discuss channels in detail in the next tutorial.
+
+When a new Goroutine is started, the goroutine call returns immediately. Unlike functions, the control does not wait for the Goroutine to finish executing. The control returns immediately to the next line of code after the Goroutine call and any return values from the Goroutine are ignored.
+The main Goroutine should be running for any other Goroutines to run. If the main Goroutine terminates then the program will be terminated and no other Goroutine will run.
+
+What are channels
+Channels can be thought of as pipes using which Goroutines communicate. Similar to how water flows from one end to another in a pipe, data can be sent from one end and received from the other end using channels.
+
+Sends and receives are blocking by default
+Sends and receives to a channel are blocking by default. What does this mean? When data is sent to a channel, the control is blocked in the send statement until some other Goroutine reads from that channel. Similarly, when data is read from a channel, the read is blocked until some Goroutine writes data to that channel.
+
+This property of channels is what helps Goroutines communicate effectively without the use of explicit locks or conditional variables that are quite common in other programming languages.
+
+Deadlock
+One important factor to consider while using channels is deadlock. If a Goroutine is sending data on a channel, then it is expected that some other Goroutine should be receiving the data. If this does not happen, then the program will panic at runtime with Deadlock.
+
+Similarly, if a Goroutine is waiting to receive data from a channel, then some other Goroutine is expected to write data on that channel, else the program will panic.
+
+What are buffered channels?
+All the channels we discussed in the previous tutorial were basically unbuffered. As we discussed in the channels tutorial in detail, sends and receives to an unbuffered channel are blocking.
+
+It is possible to create a channel with a buffer. Sends to a buffered channel are blocked only when the buffer is full. Similarly receives from a buffered channel are blocked only when the buffer is empty.
+
+Buffered channels can be created by passing an additional capacity parameter to the make function which specifies the size of the buffer.
+
+ch := make(chan type, capacity)  
+capacity in the above syntax should be greater than 0 for a channel to have a buffer. The capacity for an unbuffered channel is 0 by default and hence we omitted the capacity parameter while creating channels in the previous tutorial.
+
+WaitGroup
+A WaitGroup is used to wait for a collection of Goroutines to finish executing. The control is blocked until all Goroutines finish executing. Let's say we have 3 concurrently executing Goroutines spawned from the main Goroutine. The main Goroutines needs to wait for the 3 other Goroutines to finish before terminating. This can be accomplished using WaitGroup.
+
+Worker Pool Implementation
+One of the important uses of buffered channel is the implementation of worker pool.
+
+In general, a worker pool is a collection of threads that are waiting for tasks to be assigned to them. Once they finish the task assigned, they make themselves available again for the next task.
+
+The following are the core functionalities of our worker pool
+
+Creation of a pool of Goroutines which listen on an input buffered channel waiting for jobs to be assigned
+Addition of jobs to the input buffered channel
+Writing results to an output buffered channel after job completion
+Read and print results from the output buffered channel
+
+What is select?
+The select statement is used to choose from multiple send/receive channel operations. The select statement blocks until one of the send/receive operations is ready. If multiple operations are ready, one of them is chosen at random. The syntax is similar to switch except that each of the case statements will be a channel operation. Let's dive right into some code for better understanding.
+
+
+Critical section
+Before jumping to mutex, it is important to understand the concept of critical section in concurrent programming. When a program runs concurrently, the parts of code which modify shared resources should not be accessed by multiple Goroutines at the same time. This section of code that modifies shared resources is called critical section. For example, let's assume that we have some piece of code that increments a variable x by 1.
+
+Mutex
+A Mutex is used to provide a locking mechanism to ensure that only one Goroutine is running the critical section of code at any point in time to prevent race conditions from happening.
+
+Mutex is available in the sync package. There are two methods defined on Mutex namely Lock and Unlock. Any code that is present between a call to Lock and Unlock will be executed by only one Goroutine, thus avoiding race condition.
+
+mutex.Lock()  
+x = x + 1  
+mutex.Unlock()  
+In the above code, x = x + 1 will be executed by only one Goroutine at any point in time thus preventing race condition.
+
+If one Goroutine already holds the lock and if a new Goroutine is trying to acquire a lock, the new Goroutine will be blocked until the mutex is unlocked.
+
+
+
+Structs Instead of Classes - OOP in Go
+
+Is Go Object Oriented?
+Go is not a pure object oriented programming language. This excerpt taken from Go's FAQs answers the question of whether Go is Object Oriented.
+
+Yes and no. Although Go has types and methods and allows an object-oriented style of programming, there is no type hierarchy. The concept of “interface” in Go provides a different approach that we believe is easy to use and in some ways more general. There are also ways to embed types in other types to provide something analogous—but not identical—to subclassing. Moreover, methods in Go are more general than in C++ or Java: they can be defined for any sort of data, even built-in types such as plain, “unboxed” integers. They are not restricted to structs (classes).  
+
+Structs Instead of Classes
+Go does not provide classes but it does provide structs. Methods can be added on structs. This provides the behaviour of bundling the data and methods that operate on the data together akin to a class.
+
+Composition Instead of Inheritance 
+
+Go does not support inheritance, however, it does support composition. The generic definition of composition is "put together". One example of composition is a car. A car is composed of wheels, an engine and various other parts.
+
+Composition by embedding structs
+Composition can be achieved in Go is by embedding one struct type into another.
+
+A blog post is a perfect example of composition. Each blog post has a title, content and author information. This can be perfectly represented using composition. In the next steps of this tutorial, we will learn how this is done.
+
+Polymorphism - OOP in Go
+29 MARCH 2021
+Welcome to tutorial no. 28 in Golang tutorial series.
+
+Polymorphism in Go is achieved with the help of interfaces. As we have already discussed, interfaces are implicitly implemented in Go. A type implements an interface if it provides definitions for all the methods declared in the interface. Let's see how polymorphism is achieved in Go with the help of interfaces.
+
+Polymorphism using an interface
+Any type which provides definition for all the methods of an interface is said to implicitly implement that interface. This will be more clear as we discuss an example of polymorphism shortly.
+
+A variable of type interface can hold any value which implements the interface. This property of interfaces is used to achieve polymorphism in Go.
+
+What is Defer?
+Defer statement is used to execute a function call just before the surrounding function where the defer statement is present returns. The definition might seem complex but it's pretty simple to understand by means of an example.
+
+Stack of defers
+When a function has multiple defer calls, they are pushed on to a stack and executed in Last In First Out (LIFO) order.
+
+We will write a small program which prints a string in reverse using a stack of defers.
+
+Defer is used in places where a function call should be executed irrespective of the code flow.
+
+
+What are errors?
+Error representation
+Various ways of extracting more information from errors
+Do not ignore errors
+
+What is Panic?
+The idiomatic way of handling abnormal conditions in a Go program is using errors. Errors are sufficient for most of the abnormal conditions arising in the program.
+
+But there are some situations where the program cannot continue execution after an abnormal condition. In this case, we use panic to prematurely terminate the program. When a function encounters a panic, its execution is stopped, any deferred functions are executed and then the control returns to its caller. This process continues until all the functions of the current goroutine have returned at which point the program prints the panic message, followed by the stack trace and then terminates. This concept will be more clear when we write an example program.
+
+When Should Panic Be Used?
+One important factor is that you should avoid panic and recover and use errors where ever possible. Only in cases where the program just cannot continue execution should panic and recover mechanism be used.
+
+There are two valid use cases for panic.
+
+An unrecoverable error where the program cannot simply continue its execution.
+One example is a web server that fails to bind to the required port. In this case, it's reasonable to panic as there is nothing else to do if the port binding itself fails.
+
+A programmer error.
+Let's say we have a method that accepts a pointer as a parameter and someone calls this method using a nil argument. In this case, we can panic as it's a programmer error to call a method with nil argument which was expecting a valid pointer.
+
+Panic Example
+The signature of the built-in panic function is provided below,
+
+func panic(interface{})  
+
+Defer Calls During a Panic
+Let's recollect what panic does. When a function encounters a panic, its execution is stopped, any deferred functions are executed and then the control returns to its caller. This process continues until all the functions of the current goroutine have returned at which point the program prints the panic message, followed by the stack trace and then terminates.
+
+Recovering from a Panic
+recover is a builtin function that is used to regain control of a panicking program.
+
+The signature of recover function is provided below,
+
+func recover() interface{}  .
+
+Recover is useful only when called inside deferred functions. Executing a call to recover inside a deferred function stops the panicking sequence by restoring normal execution and retrieves the error message passed to the panic function call. If recover is called outside the deferred function, it will not stop a panicking sequence.
+
+Getting Stack Trace after Recover
+If we recover from a panic, we lose the stack trace about the panic. Even in the program above after recovery, we lost the stack trace.
+
+There is a way to print the stack trace using the PrintStack function of the Debug package
+
+Panic, Recover and Goroutines
+Recover works only when it is called from the same goroutine which is panicking. It's not possible to recover from a panic that has happened in a different goroutine.
+
+What are first class functions?
+A language which supports first class functions allows functions to be assigned to variables, passed as arguments to other functions and returned from other functions. Go has support for first class functions.
+
+Higher-order functions
+The definition of Higher-order function from wiki is a function which does at least one of the following
+
+takes one or more functions as arguments
+returns a function as its result
+
+Closures
+Closures are a special case of anonymous functions. Closures are anonymous functions which access the variables defined outside the body of the function.
+
+What is reflection?
+Reflection is the ability of a program to inspect its variables and values at run time and find their type. You might not understand what this means but that's alright. You will get a clear understanding of reflection by the end of this tutorial, so stay with me.
+
+What is the need to inspect a variable and find its type?
+The first question anyone gets when learning about reflection is why do we even need to inspect a variable and find its type at runtime when each and every variable in our program is defined by us and we know its type at compile time itself. 
